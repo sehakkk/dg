@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doğum Günün Kutlu Olsun❤️</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+    }
+    /* Başlangıçtaki tıklanabilir kalp emojisi */
+    #heart {
+      cursor: pointer;
+      transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
+      z-index: 2;
+      font-size: 100px;
+      user-select: none;
+      /* Kalbe hafif parlaklık ekleyelim */
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+    }
+    /* İçerik alanı (mesaj, fotoğraflar) */
+    #content {
+      display: none;
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+    #message {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    /* 2x2 fotoğraf ızgarası */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      grid-gap: 10px;
+      justify-content: center;
+    }
+    .photo-grid img {
+      width: 300px;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    /* Arka plan emojileri */
+    .floating-icons {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .emoji {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Tıklanabilir kalp emojisi -->
+  <div id="heart">❤️</div>
+  
+  <!-- İçerik: mesaj, müzik ve 2x2 fotoğraf ızgarası -->
+  <div id="content">
+    <div id="message">❤️İyiki Hayatımdasın, Seni Çok Seviyorum, Doğum Günün Kutlu Olsun❤️</div>
+    <audio id="song" src="muzik.mp3" preload="auto"></audio>
+    <div class="photo-grid">
+      <img src="foto1.jpg" alt="Foto 1">
+      <img src="foto2.jpg" alt="Foto 2">
+      <img src="foto3.jpg" alt="Foto 3">
+      <img src="foto4.jpg" alt="Foto 4">
+    </div>
+  </div>
+  
+  <!-- Arka plan emojileri konteyneri -->
+  <div class="floating-icons" id="emojiContainer"></div>
+  
+  <script>
+    // Kalp tıklama işlemi
+    document.getElementById('heart').addEventListener('click', function() {
+      // Kalbi 1 saniyede ekranı dolduracak şekilde büyüt
+      this.style.transform = 'scale(20)';
+      // 1 saniye sonra kalbi yumuşakça kaybolması için opacity değerini düşür
+      setTimeout(() => {
+        this.style.opacity = '0';
+      }, 1000);
+      // 1.5 saniye sonra kalbi tamamen kaldır ve içeriği göster
+      setTimeout(() => {
+        document.getElementById('heart').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+        document.getElementById('song').play();
+        generateEmojis();
+      }, 1500);
+    });
+    
+    // Arka planda rastgele emojileri oluşturan fonksiyon
+    function generateEmojis() {
+      const container = document.getElementById('emojiContainer');
+      const emojis = ['🌸', '💖', '💛', '💙', '❤️', '💚', '💜', '🌼'];
+      setInterval(() => {
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji');
+        emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * 100 + '%';
+        const duration = Math.random() * 3 + 3; // 3-6 saniye arasında animasyon süresi
+        emoji.style.animationDuration = duration + 's';
+        container.appendChild(emoji);
+        setTimeout(() => {
+          emoji.remove();
+        }, duration * 1000);
+      }, 500);
+    }
+  </script>
+</body>
+</html>
